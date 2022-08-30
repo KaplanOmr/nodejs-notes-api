@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # Database
-notes_app.db
+notes_app.sqlite

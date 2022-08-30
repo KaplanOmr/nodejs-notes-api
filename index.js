@@ -5,6 +5,8 @@ const controller = require("./controller");
 
 const app = express();
 
+app.use(express.urlencoded({extended:true}));
+
 app.use(controller);
 
 //Pass error if received unexpected action
