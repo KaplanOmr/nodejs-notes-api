@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-router.get("/", function(res, req, next){
+router.get("/", function(req, res, next){
     next("User info");
 });
 
