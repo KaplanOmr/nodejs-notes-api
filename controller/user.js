@@ -5,14 +5,8 @@ const auth = require("../providers/auth");
 const utils = require("../providers/utils");
 
 router.post("/login", function (req, res, next) {
-  if (typeof req.body.username === "undefined") {
-    next(new Error("USERNAME_REQUIRED"));
-    return;
-  }
-
-  if (typeof req.body.password === "undefined") {
-    next(new Error("PASSWORD_REQUIRED"));
-    return;
+  if (!utils.checkParams(req.body, ["username", "password"])) {
+    next(new Error("MISSING_PARAMETER(S)"));
   }
 
   const query = db.prepare(
@@ -41,20 +35,16 @@ router.post("/login", function (req, res, next) {
       });
       next(token);
     },
-    function(err, count) {
-        if (count === count) {
-            next(new Error("INVALID_CREDENTIALS"));
-        }
+    function (err, count) {
+      if (count === 0) {
+        next(new Error("INVALID_CREDENTIALS"));
+      }
     }
   );
 });
 
 router.post("/register", function (req, res, next) {
-  if (
-    typeof req.body.username === "undefined" ||
-    typeof req.body.password === "undefined" ||
-    typeof req.body.email === "undefined"
-  ) {
+  if (!utils.checkParams(req.body, ["username", "email", "passord"])) {
     next(new Error("MISSING_PARAMETER(S)"));
   }
 
